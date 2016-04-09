@@ -108,6 +108,37 @@
             }
             return auth;
           },
+          
+          
+          /**
+            ====================== Tracks =====================
+           */
+
+         /**
+          * Gets a track
+          * Pass in track id
+          */
+
+          getTrack: function (track) {
+            track = track.indexOf('spotify:') === -1 ? track : track.split(':')[2];
+
+            return this.api('/tracks/' + track);
+          },
+
+          /**
+           * Gets more tracks
+           * Pass in comma separated string or array of track ids
+           */
+
+          getTracks: function (tracks) {
+            tracks = angular.isString(tracks) ? tracks.split(',') : tracks;
+            angular.forEach(tracks, function (value, index) {
+              tracks[index] = value.indexOf('spotify:') > -1 ? value.split(':')[2] : value;
+            });
+            return this.api('/tracks', 'GET', {
+              ids: tracks ? tracks.toString() : ''
+            });
+          },
 
           /**
             ====================== Albums =====================
